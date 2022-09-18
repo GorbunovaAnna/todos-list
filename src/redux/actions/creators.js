@@ -1,4 +1,4 @@
-import { TODO } from "./types";
+import { TODO, USER } from "./types";
 import { bindActionCreators } from "redux";
 import { store } from "../index";
 
@@ -36,6 +36,17 @@ const todoFilterChange = (filterType) => ({
   },
 });
 
+const loginUser = (user) => ({
+  type: USER.USER_LOGIN,
+  payload: {
+    user,
+  }
+});
+
+const logout = () => ({
+  type: USER.USER_LOGOUT,
+})
+
 export default bindActionCreators(
   {
     addTodo,
@@ -43,6 +54,8 @@ export default bindActionCreators(
     editTodo,
     todoStatusChange,
     todoFilterChange,
+    loginUser,
+    logout,
   },
   store.dispatch
 );

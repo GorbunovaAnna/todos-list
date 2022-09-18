@@ -1,9 +1,9 @@
 import { FILTER_CONFIG } from "../../constants";
 import { createSelector } from "reselect";
 
-export const getTodos = ({ todos }) => todos;
-export const getFilter = (state) => state.filter;
-export const getIsLoading = ({ isLoading }) => isLoading;
+export const getTodos = (state) => state.todos.todos;
+export const getFilter = (state) => state.todos.filter;
+export const getIsLoading = (state) => state.todos.isLoading;
 
 export const getTodosByFilter = createSelector(
   getTodos,
@@ -18,3 +18,9 @@ export const getTodosByFilter = createSelector(
         );
   }
 );
+
+export const getUser = (state) => state.user.user;
+
+export const getIsAuthenticated = (state) => state.user.isAuthenticated;
+
+export const getUserEmail = createSelector(getUser, (user) => user.email);

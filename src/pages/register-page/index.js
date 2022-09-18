@@ -4,6 +4,7 @@ import { VALIDATION_TYPE } from "../../utils/validate";
 import { validate } from "../../utils/validate";
 import { useNavigate } from "react-router-dom";
 import styles from "./index.module.css";
+import { registerUser } from "../../firebase";
 
 const { ONLY_NUMBERS, NO_SPACES, ONE_UPPERCASE, ONE_SPEC_SYMBOL, IS_EMPTY } =
   VALIDATION_TYPE;
@@ -34,7 +35,8 @@ export const RegisterPage = () => {
     setPasswordConfirmError(passwordConfirmError);
 
     if (!loginError && !passwordError && !passwordConfirmError) {
-      navigate("/todos");
+      // navigate("/todos");
+      registerUser(loginText, passwordText);
     }
   };
 

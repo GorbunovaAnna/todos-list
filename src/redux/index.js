@@ -1,7 +1,8 @@
-import { createStore, applyMiddleware } from "redux";
+import { createStore, applyMiddleware, combineReducers } from "redux";
 import { todoReducer } from "./reducers/todoReducer";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
+import { userReducer } from "./reducers/userReducer";
 // const rootReducer = {
 // 	todo: todoReducer,
 // 	user: userReducer
@@ -9,7 +10,13 @@ import thunk from "redux-thunk";
 
 const middlewares = [thunk];
 
+const rootReducer = {
+  todos: todoReducer,
+  user: userReducer
+}
+
 export const store = createStore(
-  todoReducer,
+  combineReducers(rootReducer),
   composeWithDevTools(applyMiddleware(...middlewares))
 );
+

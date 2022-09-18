@@ -4,6 +4,10 @@ import { VALIDATION_TYPE } from "../../utils/validate";
 import { validate } from "../../utils/validate";
 import { useNavigate, Link } from "react-router-dom";
 import styles from "./index.module.css";
+import { signInUser } from "../../firebase";
+import actions from "../../redux/actions/creators";
+import { loginUserThunk } from "../../redux/actions/async-actions";
+import { useDispatch } from "react-redux";
 
 const { ONLY_NUMBERS, NO_SPACES, ONE_UPPERCASE, ONE_SPEC_SYMBOL } =
   VALIDATION_TYPE;
@@ -16,10 +20,11 @@ export const LoginPage = () => {
   const [passwordError, setPasswordError] = useState("");
   const [loginText, setLoginText] = useState("");
   const [passwordText, setPasswordText] = useState("");
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
-  const clickHandler = () => {
+  const clickHandler = async () => {
     const loginError = validate(loginText, loginConfig);
     const passwordError = validate(passwordText, passwordConfig);
 
@@ -27,7 +32,11 @@ export const LoginPage = () => {
     setPasswordError(passwordError);
 
     if (!loginError && !passwordError) {
-      navigate("/todos");
+      dispatch(
+        loginUserThunk(loginText, passwordText, () => {
+          navigate("/todos");
+        })
+      );
     }
   };
 

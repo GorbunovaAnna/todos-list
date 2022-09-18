@@ -4,8 +4,6 @@ import { VALIDATION_TYPE } from "../../utils/validate";
 import { validate } from "../../utils/validate";
 import { useNavigate, Link } from "react-router-dom";
 import styles from "./index.module.css";
-import { signInUser } from "../../firebase";
-import actions from "../../redux/actions/creators";
 import { loginUserThunk } from "../../redux/actions/async-actions";
 import { useDispatch } from "react-redux";
 
@@ -36,7 +34,7 @@ export const LoginPage = () => {
         loginUserThunk(loginText, passwordText, () => {
           navigate("/todos");
         })
-      );
+        );
     }
   };
 

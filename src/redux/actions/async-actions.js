@@ -1,7 +1,6 @@
 import { TODO } from "./types";
 import actions from "../../redux/actions/creators";
-import { signInUser } from "../../firebase";
-
+import { registerUser, signInUser } from "../../firebase";
 
 const { loginUser } = actions;
 
@@ -35,7 +34,35 @@ export const loadTodos = () => {
   };
 };
 
-export const loginUserThunk  = (login, password, cb) => {
+export const registerUserThunk = (login, password, cb) => {
+  return (dispatch, getState) => {
+    dispatch({
+      type: TODO.TODO_LOADING,
+      payload: {
+        isLoading: true,
+      },
+    });
+    console.log(login, password)
+    registerUser(login, password)
+      .then((user) => {
+        dispatch(loginUser(user));
+        cb();
+      })
+      .catch(e=>{
+        console.log(e.code);
+      })
+      .finally(() => {
+        dispatch({
+          type: TODO.TODO_LOADING,
+          payload: {
+            isLoading: false,
+          },
+        });
+      });
+  };
+};
+
+export const loginUserThunk = (login, password, cb) => {
   return (dispatch, getState) => {
     dispatch({
       type: TODO.TODO_LOADING,

@@ -25,18 +25,22 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 export const registerUser = (email, password) => {
-  createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in
-      const user = userCredential.user;
-      console.log(userCredential);
-      // ...
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // ..
-    });
+  return new Promise((resolve, reject) => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        console.log(userCredential)
+        const user = userCredential.user;
+        console.log(userCredential);
+        resolve(user);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log('code', error)
+        console.log('message', error.message)
+        reject(error);
+      });
+  });
 };
 
 export const signInUser = (email, password) => {

@@ -5,6 +5,8 @@ import { validate } from "../../utils/validate";
 import { useNavigate } from "react-router-dom";
 import styles from "./index.module.css";
 import { registerUser } from "../../firebase";
+import { registerUserThunk } from "../../redux/actions/async-actions";
+import { useDispatch } from "react-redux";
 
 const { ONLY_NUMBERS, NO_SPACES, ONE_UPPERCASE, ONE_SPEC_SYMBOL, IS_EMPTY } =
   VALIDATION_TYPE;
@@ -19,7 +21,7 @@ export const RegisterPage = () => {
   const [loginText, setLoginText] = useState("");
   const [passwordText, setPasswordText] = useState("");
   const [passwordConfirmText, setPasswordConfirmText] = useState("");
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const clickHandler = () => {
@@ -35,8 +37,7 @@ export const RegisterPage = () => {
     setPasswordConfirmError(passwordConfirmError);
 
     if (!loginError && !passwordError && !passwordConfirmError) {
-      // navigate("/todos");
-      registerUser(loginText, passwordText);
+      dispatch(registerUserThunk(loginText, passwordText, () => {navigate("/todos")}));
     }
   };
 

@@ -1,6 +1,7 @@
-import { TODO } from "./types";
+import { TODO, USER } from "./types";
 import actions from "../../redux/actions/creators";
 import { registerUser, signInUser } from "../../firebase";
+import { auth } from "../../firebase/index";
 
 const { loginUser } = actions;
 
@@ -86,3 +87,16 @@ export const loginUserThunk = (login, password, cb) => {
       });
   };
 };
+
+
+export const userLogout = () => {
+  return (dispatch) => {
+    auth.signOut();
+
+    dispatch({
+      type: USER.USER_LOGOUT,
+    })
+    
+
+  }
+}
